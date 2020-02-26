@@ -1,0 +1,7 @@
+class PawMediasDatabase {
+
+  int pawId;
+  
+
+
+}

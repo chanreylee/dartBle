@@ -1,0 +1,49 @@
+PODS:
+  - Flutter (1.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - Masonry (1.0.2)
+  - ReactiveCocoa (2.5):
+    - ReactiveCocoa/UI (= 2.5)
+  - ReactiveCocoa/Core (2.5):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.5)
+  - ReactiveCocoa/UI (2.5):
+    - ReactiveCocoa/Core
+  - sqflite (0.0.1):
+    - Flutter
+    - FMDB (~> 2.7.2)
+  - SVProgressHUD (2.0.4)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - Masonry (~> 1.0.1)
+  - ReactiveCocoa (~> 2.5)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - SVProgressHUD (~> 2.0.3)
+
+SPEC REPOS:
+  trunk:
+    - FMDB
+    - Masonry
+    - ReactiveCocoa
+    - SVProgressHUD
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
+  sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  SVProgressHUD: bfde85ed6c573ea802b9cb37894ed9b629034f1b
+
+PODFILE CHECKSUM: cb498ba392e574841df26ed0130460b3c7f8c4b7
+
+COCOAPODS: 1.8.4

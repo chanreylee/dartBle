@@ -1,0 +1,131 @@
+class PawDB {
+  
+  static void initPawDB () {
+    Map<String , Field> libraryFields = new Map<String , Field>();
+    libraryFields["pawId"] = Field(FieldType.Integer, primaryKey: true , autoIncrement: false);
+    
+    Map<String , Field> directoryFields = new Map<String , Field>();
+    directoryFields["dicDbId"] = Field(FieldType.Integer, primaryKey: true , autoIncrement: false);
+    directoryFields["dicDbPos"] = Field(FieldType.Integer);
+    directoryFields["dicDbPad"] = Field(FieldType.Integer);
+    directoryFields["dicName"] = Field(FieldType.Char);
+    directoryFields["ownerId"] = Field(FieldType.Integer, foreignKey: true, to: PAWONE+"_"+PAWLibrary);
+
+    Map<String , Field> mediaInfoFields = new Map<String , Field>();
+    directoryFields["songDbId"] = Field(FieldType.Integer, primaryKey: true , autoIncrement: false);
+    directoryFields["songDbPos"] = Field(FieldType.Integer);
+    directoryFields["songDbPad"] = Field(FieldType.Integer);
+    directoryFields["directory_ownerId"] = Field(FieldType.Integer, foreignKey: true, to: PAWONE+"_"+PAWDirectory);
+    directoryFields["like_ownerId"] = Field(FieldType.Integer, foreignKey: true, to: PAWONE+"_"+PAWDirectory);
+
+
+    Map<String , Field> mediaDetailedInfoFields = new Map<String , Field>();
+    directoryFields["songDbId"] = Field(FieldType.Integer, primaryKey: true , autoIncrement: false);
+    directoryFields["songDbPos"] = Field(FieldType.Integer);
+    directoryFields["songDbPad"] = Field(FieldType.Integer);
+    directoryFields["serverDbId"] = Field(FieldType.Text);
+    directoryFields["fileName"] = Field(FieldType.Text);
+    directoryFields["bpm"] = Field(FieldType.Integer);
+    directoryFields["bitrate"] = Field(FieldType.Integer);
+    directoryFields["channel"] = Field(FieldType.Text);
+    directoryFields["fileBit"] = Field(FieldType.Integer);
+    directoryFields["playedCount"] = Field(FieldType.Integer);
+    directoryFields["duration"] = Field(FieldType.Integer);
+    directoryFields["isLike"] = Field(FieldType.Boolean);
+    directoryFields["artist"] = Field(FieldType.Text);
+    directoryFields["songWriter"] = Field(FieldType.Text);
+    directoryFields["composer"] = Field(FieldType.Text);
+    directoryFields["album"] = Field(FieldType.Text);
+    directoryFields["year"] = Field(FieldType.Text);
+    directoryFields["copyright"] = Field(FieldType.Text);
+    directoryFields["link"] = Field(FieldType.Text);
+    directoryFields["publisher"] = Field(FieldType.Text);
+    directoryFields["suffix"] = Field(FieldType.Text);
+    directoryFields["quality"] = Field(FieldType.Text);
+    directoryFields["isNotSupport"] = Field(FieldType.Boolean);
+
+
+    FlutterOrmPlugin.createTable(PAWONE,PAWLibrary,libraryFields);
+    FlutterOrmPlugin.createTable(PAWONE,PAWDirectory,directoryFields);
+    FlutterOrmPlugin.createTable(PAWONE,PAWMediaInfo,mediaInfoFields);
+    FlutterOrmPlugin.createTable(PAWONE,PAWMediaDetailedInfo,mediaDetailedInfoFields);
+  }
+
+}
+
+
+  // Future<int> insertVideo(Video video) async {
+  //   var dbClient = await db;
+  //   var result = await dbClient.insert(tableVideo, video.toJson());
+
+  //   return result;
+  // }
+
+  // Future<List> selectVideos({int limit, int offset}) async {
+  //   var dbClient = await db;
+  //   var result = await dbClient.query(
+  //     tableVideo,
+  //     columns: [columnId, image, url, duration, title, favoriteStatus],
+  //     limit: limit,
+  //     offset: offset,
+  //   );
+  //   List<Video> videos = [];
+  //   result.forEach((item) => videos.add(Video.fromSql(item)));
+  //   return videos;
+  // }
+
+  // Future<int> getCount() async {
+  //   var dbClient = await db;
+  //   return Sqflite.firstIntValue(
+  //       await dbClient.rawQuery('SELECT COUNT(*) FROM $tableVideo'));
+  // }
+
+  // Future<Video> getVideo(int id) async {
+  //   var dbClient = await db;
+  //   List<Map> result = await dbClient.query(tableVideo,
+  //       columns: [columnId, image, url, duration, title, favoriteStatus],
+  //       where: '$id = ?',
+  //       whereArgs: [id]);
+
+  //   if (result.length > 0) {
+  //     return Video.fromSql(result.first);
+  //   }
+
+  //   return null;
+  // }
+
+  // Future<int> deleteNote(String images) async {
+  //   var dbClient = await db;
+  //   return await dbClient
+  //       .delete(tableVideo, where: '$image = ?', whereArgs: [images]);
+  // }
+
+  // Future<int> updateNote(Video video) async {
+  //   var dbClient = await db;
+  //   return await dbClient.update(tableVideo, video.toJson(),
+  //       where: "$columnId = ?", whereArgs: [video.id]);
+  // }
+
+  // Future close() async {
+  //   var dbClient = await db;
+  //   return dbClient.close();
+  // }
+
+  // ///插入到数据库
+  // Future insert(UserModel model) async {
+  //   Database db = await getDataBase();
+  //   var userProvider = await _getPersonProvider(db, model.id);
+  //   if (userProvider != null) {
+  //     ///删除数据
+  //     await db.delete(name, where: "$columnId = ?", whereArgs: [model.id]);
+  //   }
+  //   return await db.rawInsert("insert into $name ($columnId,$columnMobile,$columnHeadImage) values (?,?,?)",[model.id,model.mobile,model.headImage]);
+  // }
+
+  // ///更新数据库
+  // Future<void> update(UserModel model) async {
+  //   Database database = await getDataBase();
+  //   await database.rawUpdate(
+  //       "update $name set $columnMobile = ?,$columnHeadImage = ? where $columnId= ?",[model.mobile,model.headImage,model.id]);
+
+  // }
