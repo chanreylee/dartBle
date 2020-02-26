@@ -21,10 +21,10 @@ class BleHeartbeatPacket implements ManagerDataInterface {
   Duration               timeInterval;
   BleIOManager           readRTInfo;
   BleIOManager           checkRTInfo;
-  bool                   isProcess;
-  bool                   isUSB;
+  bool                   isProcess = false;
+  bool                   isUSB = false;
 
-  bool                   isCanStart;
+  bool                   isCanStart = false;
 
 //单例
   factory BleHeartbeatPacket() => _getInstance();
@@ -44,7 +44,7 @@ class BleHeartbeatPacket implements ManagerDataInterface {
   
 
   bool isOnTimer () {
-    return this.timer == null ? true : false;
+    return this.timer != null ? true : false;
   }
 
   void start () {
@@ -52,9 +52,13 @@ class BleHeartbeatPacket implements ManagerDataInterface {
     this.startTimer();
   }
 
-  void stop () {
+  Future<void> stop () async {
+    if (this.isCanStart) {
+      
+    }
     this.stopTimer();
-    if (!BLECentralManager().isConnectPeripheral()) {
+    bool isConnectPeripheral = await BLECentralManager().isConnectPeripheral();
+    if (!isConnectPeripheral) {
       print("检测到主控制中心没有连接外部设备,心跳包停止发送");
       this.isCanStart = false;
       BLECentralManager().startScanning(isAutoConnect: true);
@@ -89,9 +93,9 @@ class BleHeartbeatPacket implements ManagerDataInterface {
         ..setupBtype(PAW_CMD_STATES)
         ..execute();
     } else {
-      this.readRTInfo = BleIOManager(this)
+      this.readRTInfo = BleIOManager.readCMD(this)
         ..setupObjectId(DEVICE_OBJECTID_CONTROL)
-        ..setupBtype(CONTROL_OFFSET_RT_INFO_ALL)
+        ..setupOffset(CONTROL_OFFSET_RT_INFO_ALL)
       // sizeOf(Ble_RT_Info()) 36;
         ..setupLength(36)
         ..execute();
@@ -105,7 +109,7 @@ class BleHeartbeatPacket implements ManagerDataInterface {
   }
 
   @override
-  successCallback(Uint8List data, BleIOManager manager) {
+  successCallback(Uint8List data, BleIOManager manager) async {
     // TODO: implement successCallback
     if (manager == this.deviceStateManager) {
         this.num = 0;
@@ -115,7 +119,8 @@ class BleHeartbeatPacket implements ManagerDataInterface {
             this.isUSB = true;
         } else {
             if (this.isUSB) {
-              if (BLECentralManager().isConnectPeripheral()) {
+              bool isConnectPeripheral = await BLECentralManager().isConnectPeripheral();
+              if (isConnectPeripheral) {
                     BLECentralManager().disconnectPeripheral();
                     this.isUSB = false;
                     return;
@@ -132,14 +137,14 @@ class BleHeartbeatPacket implements ManagerDataInterface {
     } else if (manager == this.readRTInfo) {
         // [SVProgressHUD dismiss];
         this.num = 0;
-        PawPlayManger().fillRTInfoWithData(manager.rawData);
+        var pawPlayManger = PawPlayManger().fillRTInfoWithData(manager.rawData);
         
         if (manager.deviceState.arcIsUsbConnection) {
             this.isUSB = true;
         } else {
             if (this.isUSB) {
-                
-                if (BLECentralManager().isConnectPeripheral()) {
+                bool isConnectPeripheral = await BLECentralManager().isConnectPeripheral();
+                if (isConnectPeripheral) {
                     BLECentralManager().disconnectPeripheral();
                     this.isUSB = false;
                     return;

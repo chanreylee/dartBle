@@ -192,13 +192,13 @@ class BleConnectIO implements ManagerDataInterface {
             ..execute();
         }
         
-    } else if (manager == this.checkTotalList) {
+    // } else if (manager == this.checkTotalList) {
 
-        int number = manager.fetchDataWithReformer(BleCheckCMDReformer());
-        this.readTotalList = BleIOManager.readCMD(this)
-          ..setupLength(number)
-          ..setupObjectId(DEVICE_OBJECTID_TOTAL_FOLDER_LIST)
-          ..execute();
+        // int number = manager.fetchDataWithReformer(BleCheckCMDReformer());
+        // this.readTotalList = BleIOManager.readCMD(this)
+        //   ..setupLength(number)
+        //   ..setupObjectId(DEVICE_OBJECTID_TOTAL_FOLDER_LIST)
+        //   ..execute();
 
     } else if (manager == this.readTotalList) { // PAW_PLaylist_Header 结构
 
@@ -638,7 +638,8 @@ class BleConnectIO implements ManagerDataInterface {
           ..setupObjectId(DEVICE_OBJECTID_PLAYLIST)
           ..setupSendData(sendData.buffer.asUint8List())
           ..execute();
-    } else if (manager == this.writeMineLike) {
+    } else if (manager == this.checkTotalList) {
+    // else if (manager == this.writeMineLike) {
         
         print("文件信息加载成功");
 

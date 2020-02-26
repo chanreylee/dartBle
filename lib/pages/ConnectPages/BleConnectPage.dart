@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:dhsjakd/DB/PAWPlayerManger.dart';
 import 'package:dhsjakd/DB/paw_db/paw_db.dart';
 import 'package:dhsjakd/utls/EventBus.dart';
 import 'package:flutter/foundation.dart';
@@ -28,7 +29,14 @@ class _BleConnectPageState extends State<BleConnectPage> {
   BleConnectIO connectIO;
 
   //连接后加载完成。
-  ValueGetter connectLoadedEndBlock = this.aaa();
+  ValueGetter connectLoadedEndBlock = () {
+    eventBus.on<PawHeartbeatEvent>().listen((event) async {
+        if (event.isChange) {
+          var manger = PawPlayManger();
+          print(manger);
+        }
+    });
+  };
 
   @override
   void initState() {

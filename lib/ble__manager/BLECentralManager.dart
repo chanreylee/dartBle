@@ -61,8 +61,10 @@ class BLECentralManager extends ChangeNotifier {
         "ble_Disconnect", callback: (Map bleState) {
         bool isDisconnect = bleState["isBleDisconnect"];
         if (isDisconnect) {
-          this.cleanPeripheral();
-          BleHeartbeatPacket().stop();
+          if (this.connectedPeripheral != null ) {
+            this.cleanPeripheral();
+            BleHeartbeatPacket().stop();
+          }
         }
     });
   }
@@ -73,11 +75,9 @@ class BLECentralManager extends ChangeNotifier {
   }
 
   // 是否已连接外设
-  bool isConnectPeripheral() {
-    FLTNativeMethodChannel().sendMethod("isConnectPeripheral/bool",
-        callback: (dynamic result) {
-      return result;
-    });
+  Future<bool> isConnectPeripheral() async {
+    bool isConnectPeripheral = await FLTNativeMethodChannel().sendMethod_V2("isConnectPeripheral/bool");
+    return isConnectPeripheral;
   }
 
   /**

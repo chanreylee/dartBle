@@ -71,18 +71,17 @@ class PawPlayManger implements ManagerDataInterface {
 
   void fillRTInfoWithData (Uint8List data) {
     bool isYes = false;
-    int data_len = data.buffer.asByteData().getUint16(29, Endian.little);
+    int data_len = data.buffer.asByteData().getUint16(29);
     if (data_len < (36 - 4) || data_len > 10000 ) {
       return;
     }
     Uint16List pP3K_TagHeader;
     int num = sumBleRtInfoWithPinfo(data, data_len - 4);
-    int len = 0;
-          // this.sRT_Info->t_len - ((xU32)this.sRT_Info->hd - (xU32)this.sRT_Info);
-    len = data_len - (data.buffer.asByteData().getUint32(31, Endian.little) - data.buffer.asByteData().getUint32(0, Endian.host));
-    pP3K_TagHeader = getHeartTagData(data, len, PAW_BLE_RT_INFO_SUM);
-    if (pP3K_TagHeader != null) {
-        if (num == pP3K_TagHeader[1]) {
+    int len = data_len - 32;
+    int tagHeader_index = getHeartTagData(data, len, PAW_BLE_RT_INFO_SUM);
+    if (tagHeader_index != null) {
+      int validationNum = data.buffer.asByteData().getUint16(tagHeader_index + 4 ,Endian.little);
+        if (num == validationNum) {
             isYes = true;
         }
     }

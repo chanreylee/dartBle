@@ -90,21 +90,20 @@ int sumBleRtInfoWithPinfo (Uint8List pinfo, int len) {
   return sum;
 }
 
-Uint16List getHeartTagData (Uint8List pbuff, int buffsize, int tagMagic) {
+int getHeartTagData (Uint8List pbuff, int buffsize, int tagMagic) {
 
-  Uint16List ptag = Uint16List(2);
   Uint8List newPbuff = Uint8List.fromList(pbuff);
 
   int	found_size = 0;
 
   while(found_size < buffsize)
     {
-        // newPbuff.buffer.asByteData().getUint16(31 + found_size, Endian.host);
-        if (tagMagic == newPbuff.buffer.asByteData(31 + found_size, 4).getUint16(0))
+        Uint16List ptag = Uint16List(2);
+        ptag[0] = newPbuff.buffer.asByteData().getUint16(32,Endian.little);
+        ptag[1] = newPbuff.buffer.asByteData().getUint16(34,Endian.little);
+        if (tagMagic == ptag[0])
         {
-          ptag[0] = newPbuff.buffer.asByteData(31 + found_size, 4).getUint16(0);
-          ptag[1] = newPbuff.buffer.asByteData(31 + found_size + 2, 4).getUint16(0);
-            return ptag;
+            return 32 + found_size;
         }else
         {
             found_size += 1;

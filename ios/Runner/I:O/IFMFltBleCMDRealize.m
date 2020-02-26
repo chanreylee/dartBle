@@ -204,6 +204,9 @@
     readManager.delegate = self;
     readManager.flutterResult = result;
     if (dic[@"objectId"]) {
+        if (CONTROL_OFFSET_RT_INFO_ALL == [dic[@"offset"] intValue]) {
+            NSLog(@"");
+        }
         [readManager setupObjectId:[dic[@"objectId"] intValue]];
         [readManager setupLength:[dic[@"length"] intValue]];
         [readManager setupEventType:[dic[@"offset"] intValue]];

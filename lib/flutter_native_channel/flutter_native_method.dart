@@ -42,6 +42,11 @@ class FLTNativeMethodChannel {
     callback(result);
   }
 
+  Future<dynamic> sendMethod_V2(String methodName, {dynamic arguments}) async {
+    dynamic result = await _channel.invokeMethod(methodName,arguments);
+    return result;
+  }
+
   //flutter端发送 methodName：方法名字，arguments：参数, callback：回调
   void sendDebugLogInfo(dynamic arguments, {callback(dynamic result)}) async {
     dynamic result = await _channel.invokeMethod("DebugLogInfo",arguments);
